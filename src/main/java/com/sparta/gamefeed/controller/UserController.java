@@ -1,19 +1,20 @@
 package com.sparta.gamefeed.controller;
 
+import com.sparta.gamefeed.dto.IntroduceRequestDto;
 import com.sparta.gamefeed.dto.SignupRequestDto;
 import com.sparta.gamefeed.dto.StatusResponseDto;
+import com.sparta.gamefeed.dto.ProfileResponseDto;
+import com.sparta.gamefeed.security.UserDetailsImpl;
 import com.sparta.gamefeed.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user/signul")
+    @PostMapping("/user/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult){
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if(fieldErrors.size() > 0) {
@@ -41,6 +42,21 @@ public class UserController {
             return ResponseEntity.ok().body(new StatusResponseDto(message, HttpStatus.OK.value()));
         } catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(),HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
+    @GetMapping("/user/profile")
+    public ProfileResponseDto getUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getUser(userDetails.getUser().getId());
+    }
+
+    @PatchMapping("/user/profile")
+    public ResponseEntity<?> changeUserInfo(@RequestBody IntroduceRequestDto requestDto,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try {
+            return userService.changeUserInfo(requestDto, userDetails.getUser().getId());
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 }
