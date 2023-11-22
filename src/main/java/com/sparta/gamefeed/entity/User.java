@@ -1,5 +1,6 @@
 package com.sparta.gamefeed.entity;
 
+import com.sparta.gamefeed.dto.IntroduceRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
@@ -28,10 +29,24 @@ public class User {
     @Column(nullable = true)
     private String introduce;
 
-    public User(String username, String password, String email, String introduce) {
-        this.username = username;
+    public User(String userId, String password, String email, String introduce) {
+        this.userId = userId;
         this.password = password;
         this.email = email;
         this.introduce = introduce;
+    }
+
+    public void changeUserInfo(IntroduceRequestDto requestDto) {
+        if(requestDto.getEmail() != null){
+            this.email = requestDto.getEmail();
+        }
+
+        if(requestDto.getIntroduce() != null){
+            this.introduce = requestDto.getIntroduce();
+        }
+
+        if(requestDto.getChangePassword() != null){
+            this.password = requestDto.getChangePassword();
+        }
     }
 }
