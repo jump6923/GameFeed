@@ -24,25 +24,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping("/post/{postsId}")
+    @PostMapping("/post/{postsId}/comments")
     public ResponseEntity<?> createComment(@PathVariable Long postId,
                                            @RequestBody CommentRequestDto requestDto) {
         // 이후 User 값 까지 추가해줘야함.
         try {
             CommentResponseDto responseDto = commentService.createComment(postId, requestDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new StatusResponseDto("댓글 작성 성공", HttpStatus.CREATED.value()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/post/{postId}/comments")
     public ResponseEntity<?> getComments(@PathVariable Long postId) {
         try {
             List<CommentResponseDto> responseDto = commentService.getComments(postId);
             return ResponseEntity.ok().body(responseDto);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
@@ -50,12 +51,17 @@ public class CommentController {
 
     @PatchMapping("/comment/{commentId}")
     public ResponseEntity<?> modifyComment(@PathVariable Long commentId, @RequestBody CommentRequestDto requestDto) {
-        return null;
+        try {
+            CommentResponseDto commentResponseDto = commentService.modifyComment(commentId, requestDto);
+            return ResponseEntity.ok().body(new StatusResponseDto("댓글 수정 성공", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest()
+                    .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<?> deleteComment() {
-
         return null;
     }
 }

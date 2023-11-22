@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +19,21 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
+    public CommentResponseDto modifyComment(Long commentId, CommentRequestDto requestDto) {
+        // comment가 있는지 확인
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
+        // 유저가 맞는지 확인
+        // 수정
+        comment.update(requestDto);
+
+        return new CommentResponseDto(comment);
+    }
+
     public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto) {
         // Post가 있는지 확인
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post id 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post 입니다."));
         // 생성
         Comment comment = new Comment(requestDto, post);
         // 저장
@@ -29,10 +41,11 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
+    @Transactional
     public List<CommentResponseDto> getComments(Long postId) {
         // 해당 Post가 있는지 확인
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post id 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post 입니다."));
 
         List<Comment> commentList = commentRepository.findAllByPost_Id(postId); // 작동하는지 확인
         List<CommentResponseDto> responseDtoList = commentList.stream()
