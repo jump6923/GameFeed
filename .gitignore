@@ -1,3 +1,21 @@
+# Spring 추가
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+
 # Created by https://www.toptal.com/developers/gitignore/api/jetbrains,intellij,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=jetbrains,intellij,windows,macos
 
