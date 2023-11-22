@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class StatusResponseDto {
     String message;
-    int value;
+    int status;
 
-    public StatusResponseDto(String message, int value) {
+    public StatusResponseDto(String message, int status) {
         this.message = message;
-        this.value = value;
+        this.status = status;
     }
 }
