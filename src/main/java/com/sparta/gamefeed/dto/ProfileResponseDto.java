@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ProfileResponseDto {
-    private String userId;
+    private String username;
     private String email;
     private String introduce;
 
     public ProfileResponseDto(User user) {
-        this.userId = user.getUserId();
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.introduce = user.getIntroduce();
     }

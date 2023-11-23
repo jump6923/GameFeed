@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping("/post/{postId}/comments")
+    @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<?> createComment(@PathVariable Long postId,
                                            @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -39,7 +39,7 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/post/{postId}/comments")
+    @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<?> getComments(@PathVariable Long postId) {
         try {
             List<CommentResponseDto> responseDto = commentService.getComments(postId);
@@ -50,7 +50,7 @@ public class CommentController {
         }
     }
 
-    @PatchMapping("/comment/{commentId}")
+    @PatchMapping("/comments/{commentId}")
     public ResponseEntity<?> modifyComment(@PathVariable Long commentId,
                                            @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -63,7 +63,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {

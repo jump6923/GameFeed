@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 public class CommentResponseDto {
     private String content;
-    private String userId;
+    private String username;
     private LocalDateTime modifiedAt;
 
     public CommentResponseDto(Comment comment){
         this.content = comment.getContent();
-        this.userId = comment.getUser().getUserId();
+        this.username = comment.getUser().getUsername();
         this.modifiedAt = comment.getModifiedAt();
     }
 }

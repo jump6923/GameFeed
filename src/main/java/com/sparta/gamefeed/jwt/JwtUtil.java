@@ -19,8 +19,10 @@ public class JwtUtil {
 
     // Header Key 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
+
     //토큰 만료시간
     private final long TOKEN_TIME = 60 * 60 * 1000L;
 
@@ -31,18 +33,21 @@ public class JwtUtil {
 
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-    @PostConstruct
+    @PostConstruct // 1회만 실행되는 메소드
     public void init(){
         byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes); // 우리가 가지고 있는 키로 사용할 키 만들기
     }
 
-    public String createToken(String userId){ // userId로 토큰 만들기
+
+    // jwt 토큰 -> 1. header 2. payload 3. security key
+    //                 header + payload -> security key
+    public String createToken(String username){ // username으로 토큰 만들기
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(userId)
+                        .setSubject(username)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)

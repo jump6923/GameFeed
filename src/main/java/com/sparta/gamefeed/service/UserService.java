@@ -22,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     public void signup(SignupRequestDto requestDto) {
-        String userId = requestDto.getUserId();
+        String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String email = requestDto.getEmail();
         String introduce = requestDto.getIntroduce();
@@ -31,12 +31,12 @@ public class UserService {
             introduce = "자기 소개를 입력해 주세요";
         }
 
-        Optional<User> checkUserId = userRepository.findByUserId(userId);
-        if(checkUserId.isPresent()){
+        Optional<User> checkUsername = userRepository.findByUsername(username);
+        if(checkUsername.isPresent()){
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        User user = new User(userId, password, email, introduce);
+        User user = new User(username, password, email, introduce);
         userRepository.save(user);
     }
 

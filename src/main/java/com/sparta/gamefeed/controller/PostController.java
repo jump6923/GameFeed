@@ -20,35 +20,35 @@ public class PostController {
     private final PostService postService;
 
     //게시판 전체 게시물 조회
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public List<PostResponseDto> getPostList() {
         return postService.getPostList();
     }
 
     //특정 게시판 게시물 조회
-    @GetMapping("/post/{categoryfolderId}")
+    @GetMapping("/posts/{categoryfolderId}")
     public List<PostResponseDto> getPostList(@PathVariable Long categoryfolderId) {
         return postService.getPostList(categoryfolderId);
     }
 
     //특정 게시물 조회
-    @GetMapping("/post/{postId}")
+    @GetMapping("/posts/{postId}")
     public PostResponseDto getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 
     //게시물 등록
-    @PostMapping("/post/{categoryfolderId}")
+    @PostMapping("/posts/{categoryfolderId}")
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @PathVariable Long categoryfolderId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.createPost(requestDto, categoryfolderId, userDetails.getUser().getUserId());
+        return postService.createPost(requestDto, categoryfolderId, userDetails.getUser().getUsername());
     }
     //게시물 수정
-    @PatchMapping("/post/{postId}")
+    @PatchMapping("/posts/{postId}")
     public PostResponseDto update(@PathVariable Long postId, @RequestBody PostRequestDto requestDto ) {
         return postService.update(postId, requestDto);
     }
     //게시물 삭제
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public Long deletePost(@PathVariable Long postId) {
         return postService.deletePost(postId);
     }
