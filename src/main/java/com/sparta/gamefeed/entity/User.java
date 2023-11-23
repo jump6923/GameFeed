@@ -23,17 +23,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, unique = true, length = 30)
     private String email;
 
     @Column(nullable = true)
     private String introduce;
 
-    public User(String username, String password, String email, String introduce) {
+    @Column(nullable = false)
+    private boolean checker;
+
+    public User(String username, String password, String email, String introduce, boolean checker) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.introduce = introduce;
+        this.checker = checker;
     }
 
     public void changeUserInfo(IntroduceRequestDto requestDto) {
@@ -48,5 +52,9 @@ public class User {
         if(requestDto.getChangePassword() != null){
             this.password = requestDto.getChangePassword();
         }
+    }
+
+    public void changechecker(boolean checker) {
+        this.checker = checker;
     }
 }
