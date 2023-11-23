@@ -4,12 +4,12 @@ import com.sparta.gamefeed.entity.Comment;
 import java.time.LocalDateTime;
 
 public class CommentResponseDto {
-    private String content;
+    private String contents;
     private String username;
     private LocalDateTime modifiedAt;
 
     public CommentResponseDto(Comment comment){
-        this.content = comment.getContent();
+        this.contents = comment.getContents();
         this.username = comment.getUser().getUsername();
         this.modifiedAt = comment.getModifiedAt();
     }

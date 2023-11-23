@@ -34,7 +34,7 @@ public class PostController {
     }
 
     //특정 게시판 게시물 조회
-    @GetMapping("/posts/{categoryfolderId}")
+    @GetMapping("/posts/category/folder/{categoryfolderId}")
     public List<PostResponseDto> getPostList(@PathVariable Long categoryfolderId) {
         return postService.getPostList(categoryfolderId);
     }
