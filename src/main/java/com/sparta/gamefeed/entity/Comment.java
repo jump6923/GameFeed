@@ -24,7 +24,7 @@ public class Comment extends Timestamped{
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    private String contents;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -35,12 +35,12 @@ public class Comment extends Timestamped{
     private User user;
 
     public Comment(CommentRequestDto requestDto, Post post, User user){
-        this.content = requestDto.getContent();
+        this.contents = requestDto.getContents();
         this.post = post;
         this.user = user;
     }
 
     public void update(CommentRequestDto requestDto) {
-        this.content = requestDto.getContent();
+        this.contents = requestDto.getContents();
     }
 }
