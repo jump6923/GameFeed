@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,17 +33,29 @@ public class PostController {
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
+    //특정 게시판 게시물 조회(ResponseEntity)
 
-    //특정 게시판 게시물 조회
     @GetMapping("/posts/category/folder/{categoryfolderId}")
-    public List<PostResponseDto> getPostList(@PathVariable Long categoryfolderId) {
-        return postService.getPostList(categoryfolderId);
+    public ResponseEntity<?> getPostList(@PathVariable Long categoryfolderId) {
+        try {
+            List<PostResponseDto> responseDto = postService.getPostList(categoryfolderId);
+            return ResponseEntity.ok().body(responseDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
-    //특정 게시물 조회
+    //특정 게시물 조회(ResponseEntity)
     @GetMapping("/posts/{postId}")
-    public PostResponseDto getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
+    public ResponseEntity<?> getPost(@PathVariable Long postId) {
+        try {
+            PostResponseDto responseDto = postService.getPost(postId);
+            return ResponseEntity.ok().body(responseDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
     //게시물 등록 (ResponseEntity)
@@ -59,18 +72,30 @@ public class PostController {
         }
     }
 
-    //게시물 수정
+    //게시물 수정(ResponseEntity)
     @PatchMapping("/posts/{postId}")
-    public PostResponseDto updatePost(@PathVariable Long postId,
-                                      @RequestBody PostRequestDto requestDto,
-                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.updatePost(postId, requestDto, userDetails.getUser().getId());
+    public ResponseEntity<?> updatePost(@PathVariable Long postId,
+                                        @RequestBody PostRequestDto requestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            PostResponseDto responseDto = postService.updatePost(postId, requestDto, userDetails.getUser().getId());
+            return ResponseEntity.ok().body(responseDto);
+        } catch (RejectedExecutionException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 
-    //게시물 삭제
+    //게시물 삭제(ResponseEntity)
     @DeleteMapping("/posts/{postId}")
-    public void deletePost(@PathVariable Long postId,
-                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        postService.deletePost(postId, userDetails.getUser().getId());
+    public ResponseEntity<?> deletePost(@PathVariable Long postId,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            postService.deletePost(postId, userDetails.getUser().getId());
+            return ResponseEntity.ok().body(new StatusResponseDto("게시물 삭제 성공", HttpStatus.OK.value()));
+        } catch (RejectedExecutionException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 }
