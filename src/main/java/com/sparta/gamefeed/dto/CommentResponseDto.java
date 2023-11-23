@@ -1,16 +1,20 @@
 package com.sparta.gamefeed.dto;
 
 import com.sparta.gamefeed.entity.Comment;
+import lombok.Getter;
+import org.hibernate.annotations.Comments;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class CommentResponseDto {
-    private String content;
-    private String userId;
+    private String contents;
+    private String username;
     private LocalDateTime modifiedAt;
 
     public CommentResponseDto(Comment comment){
-        this.content = comment.getContent();
-        this.userId = comment.getUser().getUserId();
+        this.contents = comment.getContents();
+        this.username = comment.getUser().getUsername();
         this.modifiedAt = comment.getModifiedAt();
     }
 }

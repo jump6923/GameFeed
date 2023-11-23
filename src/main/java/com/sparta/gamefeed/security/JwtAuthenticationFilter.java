@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            requestDto.getUserId(),
+                            requestDto.getUsername(),
                             requestDto.getPassword(),
                             null
                     )
@@ -58,6 +58,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         writer.println(json);
     }
 
+    @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         String message = "로그인에 실패했습니다.";
         response.setStatus(400);
