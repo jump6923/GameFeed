@@ -3,12 +3,14 @@ package com.sparta.gamefeed.controller;
 import com.sparta.gamefeed.dto.CommentRequestDto;
 import com.sparta.gamefeed.dto.CommentResponseDto;
 import com.sparta.gamefeed.dto.StatusResponseDto;
+import com.sparta.gamefeed.security.UserDetailsImpl;
 import com.sparta.gamefeed.service.CommentService;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,10 +28,10 @@ public class CommentController {
 
     @PostMapping("/post/{postId}/comments")
     public ResponseEntity<?> createComment(@PathVariable Long postId,
-                                           @RequestBody CommentRequestDto requestDto) {
-        // 이후 User 값 까지 추가해줘야함.
+                                           @RequestBody CommentRequestDto requestDto,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            CommentResponseDto responseDto = commentService.createComment(postId, requestDto);
+            CommentResponseDto responseDto = commentService.createComment(postId, requestDto, userDetails.getUser());
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
@@ -49,22 +51,25 @@ public class CommentController {
     }
 
     @PatchMapping("/comment/{commentId}")
-    public ResponseEntity<?> modifyComment(@PathVariable Long commentId, @RequestBody CommentRequestDto requestDto) {
+    public ResponseEntity<?> modifyComment(@PathVariable Long commentId,
+                                           @RequestBody CommentRequestDto requestDto,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            CommentResponseDto responseDto = commentService.modifyComment(commentId, requestDto);
+            CommentResponseDto responseDto = commentService.modifyComment(commentId, requestDto, userDetails.getUser());
             return ResponseEntity.ok().body(responseDto);
-        } catch (RejectedExecutionException | IllegalArgumentException e){
+        } catch (RejectedExecutionException | IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
     @DeleteMapping("/comment/{commentId}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<?> deleteComment(@PathVariable Long commentId,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            commentService.deleteComment(commentId);
+            commentService.deleteComment(commentId, userDetails.getUser());
             return ResponseEntity.ok().body(new StatusResponseDto("댓글 삭제 성공", HttpStatus.OK.value()));
-        } catch (RejectedExecutionException | IllegalArgumentException e){
+        } catch (RejectedExecutionException | IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
