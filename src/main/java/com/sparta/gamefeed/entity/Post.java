@@ -19,9 +19,6 @@ public class Post extends Timestamped{
     @Column(name="title",nullable = false)
     private String title;
 
-    @Column(name = "username",nullable = false)
-    private String username;
-
     @Column(name = "contents",nullable = false)
     private String contents;
 
@@ -29,10 +26,14 @@ public class Post extends Timestamped{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Post(PostRequestDto requestDto, String username) {
+    @ManyToOne
+    @JoinColumn(name = "categoryfolder_id")
+    private CategoryFolder categoryFolder;
+
+    public Post(PostRequestDto requestDto, User user, CategoryFolder categoryFolder) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContent();
-        this.username = username;
+        this.user = user;
     }
 
     public void update(PostRequestDto requestDto) {
