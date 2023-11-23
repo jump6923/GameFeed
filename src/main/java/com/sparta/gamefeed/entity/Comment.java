@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @NoArgsConstructor
 @Table(name = "comment")
-public class Comment extends Timestamped{
+public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +40,7 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment(CommentRequestDto requestDto, Post post, User user){
+    public Comment(CommentRequestDto requestDto, Post post, User user) {
         this.contents = requestDto.getContents();
         this.post = post;
         this.user = user;
@@ -47,5 +48,15 @@ public class Comment extends Timestamped{
 
     public void update(CommentRequestDto requestDto) {
         this.contents = requestDto.getContents();
+    }
+
+    public void increaseLikeCount() {
+        likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        if (likeCount > 0) {
+            likeCount--;
+        }
     }
 }
