@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = true)
     private String introduce;
 
-    public User(String userId, String password, String email, String introduce) {
+    public User(String username, String password, String email, String introduce) {
         this.username = username;
         this.password = password;
         this.email = email;

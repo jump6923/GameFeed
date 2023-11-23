@@ -44,9 +44,7 @@ public class PostService {
     }
 
     public PostResponseDto getPost(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-        );
+        Post post = findPost(postId);
         return new PostResponseDto(post);
     }
 
@@ -55,19 +53,20 @@ public class PostService {
                 () -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
         CategoryFolder categoryFolder = categoryFolderRepository.findById(categoryfolderId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 경로입니다."));
-        Post post = new Post(requestDto,user,categoryFolder);
+        Post post = new Post(requestDto, user, categoryFolder);
         postRepository.save(post);
         return new PostResponseDto(post);
     }
 
     @Transactional
-    public PostResponseDto update(Long postId, PostRequestDto requestDto) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다.")
-        );
-
-        post.update(requestDto);
-        postRepository.save(post);
+    public PostResponseDto updatePost(Long postId, PostRequestDto requestDto, Long userId) {
+        User user = findUser(userId);
+        Post post = findPost(postId);
+        if (user.getId().equals(post.getUser().getId())) {
+            post.updatePost(requestDto);
+        } else {
+            throw new IllegalArgumentException("작성자만 게시물을 수정/삭제 할 수 있습니다.");
+        }
         return new PostResponseDto(post);
     }
 
