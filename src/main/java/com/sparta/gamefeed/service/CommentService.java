@@ -7,12 +7,12 @@ import com.sparta.gamefeed.entity.Post;
 import com.sparta.gamefeed.entity.User;
 import com.sparta.gamefeed.repository.CommentRepository;
 import com.sparta.gamefeed.repository.PostRepository;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +34,13 @@ public class CommentService {
         postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post 입니다."));
 
         List<Comment> commentList = commentRepository.findAllByPost_Id(postId); // 작동하는지 확인
-        List<CommentResponseDto> responseDtoList = commentList.stream().map(CommentResponseDto::new).toList();
-        return responseDtoList;
+        return commentList.stream().map(CommentResponseDto::new).toList();
     }
 
     @Transactional
     public CommentResponseDto modifyComment(Long commentId, CommentRequestDto requestDto, User user) {
         // comment가 있는지 확인 + 이후 작성자가 맞는지도 확인할 예정
-        Comment comment = getValidationComment(commentId, user);
+        Comment comment = findComment(commentId, user);
 
         comment.update(requestDto);
         return new CommentResponseDto(comment);
@@ -49,16 +48,16 @@ public class CommentService {
 
     public void deleteComment(Long commentId, User user) {
         // comment가 있는지 확인 + 이후 작성자가 맞는지도 확인할 예정
-        Comment comment = getValidationComment(commentId, user);
+        Comment comment = findComment(commentId, user);
 
         commentRepository.delete(comment);
     }
 
-    public Comment getValidationComment(Long commentId, User user) {
+    public Comment findComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
         if(!user.getId().equals(comment.getUser().getId())){
-            throw new RejectedExecutionException("댓글 작성자만 삭제가 가능 합니다.");
+            throw new RejectedExecutionException("댓글 작성자만 삭제 or 수정이 가능 합니다.");
         }
         return comment;
     }

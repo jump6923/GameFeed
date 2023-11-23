@@ -69,7 +69,8 @@ public class PostController {
 
     //게시물 삭제
     @DeleteMapping("/posts/{postId}")
-    public Long deletePost(@PathVariable Long postId) {
-        return postService.deletePost(postId);
+    public void deletePost(@PathVariable Long postId,
+                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.deletePost(postId, userDetails.getUser().getId());
     }
 }
