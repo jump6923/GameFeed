@@ -11,15 +11,15 @@ import lombok.Setter;
 @Setter
 @Table(name = "post")
 @NoArgsConstructor
-public class Post extends Timestamped{
+public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "contents",nullable = false)
+    @Column(name = "contents", nullable = false)
     private String contents;
 
     @ManyToOne
@@ -37,8 +37,13 @@ public class Post extends Timestamped{
         this.categoryFolder = categoryFolder;
     }
 
+    //title, contents 수정내용이 null이면 기존 내용
     public void updatePost(PostRequestDto requestDto) {
-        this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        if (requestDto.getTitle() != null) {
+            this.title = requestDto.getTitle();
+        }
+        if (requestDto.getContents() != null) {
+            this.contents = requestDto.getContents();
+        }
     }
 }
