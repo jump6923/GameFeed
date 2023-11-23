@@ -1,7 +1,10 @@
 package com.sparta.gamefeed.controller;
 
 import com.sparta.gamefeed.dto.StatusResponseDto;
+import com.sparta.gamefeed.entity.Heart;
 import com.sparta.gamefeed.security.UserDetailsImpl;
+import com.sparta.gamefeed.service.CommentService;
+import com.sparta.gamefeed.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class HeartController {
+    private final HeartService heartService;
     // 댓글 좋아요
     @PostMapping("/comments/{commentId}/heart")
-    public ResponseEntity<StatusResponseDto> insertHeart(@PathVariable Long commentId,
+    public ResponseEntity<StatusResponseDto> toggleHeartComment(@PathVariable Long commentId,
                                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
+        heartService.toggleHeartComment(commentId,userDetails.getUser());
         return ResponseEntity.ok().body(new StatusResponseDto("d", HttpStatus.OK.value()));
     }
 }
