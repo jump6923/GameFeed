@@ -1,10 +1,9 @@
 package com.sparta.gamefeed.service;
 
-import com.sparta.gamefeed.dto.IntroduceRequestDto;
-import com.sparta.gamefeed.dto.SignupRequestDto;
-import com.sparta.gamefeed.dto.ProfileResponseDto;
-import com.sparta.gamefeed.dto.StatusResponseDto;
+import com.sparta.gamefeed.dto.*;
+import com.sparta.gamefeed.entity.Email;
 import com.sparta.gamefeed.entity.User;
+import com.sparta.gamefeed.repository.EmailRepository;
 import com.sparta.gamefeed.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,12 +19,15 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
     private final PasswordEncoder passwordEncoder;
+
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String email = requestDto.getEmail();
         String introduce = requestDto.getIntroduce();
+        boolean checker = false;
 
         if(introduce == null){
             introduce = "자기 소개를 입력해 주세요";
@@ -36,7 +38,7 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        User user = new User(username, password, email, introduce);
+        User user = new User(username, password, email, introduce, checker);
         userRepository.save(user);
     }
 
@@ -66,5 +68,16 @@ public class UserService {
         }
         changeUser.changeUserInfo(requestDto);
         return ResponseEntity.ok(new ProfileResponseDto(changeUser));
+    }
+
+    public boolean checkUserEmail(LoginRequestDto requestDto) {
+        String username = requestDto.getUsername();
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다.")
+        );
+        if(user.isChecker()){
+            return true;
+        }
+        return false;
     }
 }

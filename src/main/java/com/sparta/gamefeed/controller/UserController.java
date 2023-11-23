@@ -1,10 +1,8 @@
 package com.sparta.gamefeed.controller;
 
-import com.sparta.gamefeed.dto.IntroduceRequestDto;
-import com.sparta.gamefeed.dto.SignupRequestDto;
-import com.sparta.gamefeed.dto.StatusResponseDto;
-import com.sparta.gamefeed.dto.ProfileResponseDto;
+import com.sparta.gamefeed.dto.*;
 import com.sparta.gamefeed.security.UserDetailsImpl;
+import com.sparta.gamefeed.service.EmailService;
 import com.sparta.gamefeed.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +23,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
     @PostMapping("/user/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult){
@@ -38,9 +37,10 @@ public class UserController {
         }
         try {
             userService.signup(requestDto);
-            String message = "가입에 성공했습니다. 환영합니다";
+            emailService.sendSimpleMessage(requestDto);
+            String message = "이메일이 전송되었습니다! 이메일 코드를 확인해주세요!";
             return ResponseEntity.ok().body(new StatusResponseDto(message, HttpStatus.OK.value()));
-        } catch (IllegalArgumentException ex){
+        } catch (Exception ex){
             return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(),HttpStatus.BAD_REQUEST.value()));
         }
     }

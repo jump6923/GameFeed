@@ -51,7 +51,7 @@ public class PostService {
     }
 
     public PostResponseDto createPost(PostRequestDto requestDto, Long categoryfolderId , String userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(
+        User user = userRepository.findByUsername(userId).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
         CategoryFolder categoryFolder = categoryFolderRepository.findById(categoryfolderId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 경로입니다."));

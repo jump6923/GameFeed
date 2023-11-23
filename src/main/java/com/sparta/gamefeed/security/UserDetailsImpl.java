@@ -18,6 +18,10 @@ public class UserDetailsImpl implements UserDetails {
         return user;
     }
 
+    public boolean getChecker(){
+        return user.isChecker();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
