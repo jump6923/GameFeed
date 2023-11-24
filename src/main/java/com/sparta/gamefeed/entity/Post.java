@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,6 +22,10 @@ public class Post extends Timestamped {
 
     @Column(name = "contents", nullable = false)
     private String contents;
+
+    @ColumnDefault("0")
+    @Column(name = "heart")
+    private int likeCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -44,6 +49,16 @@ public class Post extends Timestamped {
         }
         if (requestDto.getContents() != null) {
             this.contents = requestDto.getContents();
+        }
+    }
+
+    public void increaseLikeCount() {
+        likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        if (likeCount > 0) {
+            likeCount--;
         }
     }
 }

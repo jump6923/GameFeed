@@ -102,12 +102,12 @@ public class EmailService{
     }
 
     @Transactional
-    public String emailCheck(String code) {
+    public void emailCheck(String code) {
         Email email = emailRepository.findByCode(code).orElseThrow(
                 () -> new IllegalArgumentException("해당 코드가 맞지 않습니다.")
         );
         User user = userRepository.findByEmail(email.getEmail());
         user.changechecker(true);
-        return "success";
+        emailRepository.delete(email);
     }
 }

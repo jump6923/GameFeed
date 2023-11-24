@@ -33,8 +33,8 @@ public class PostController {
                     .body(new StatusResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
-    //특정 게시판 게시물 조회(ResponseEntity)
 
+    //특정 게시판 게시물 조회(ResponseEntity)
     @GetMapping("/posts/category/folder/{categoryfolderId}")
     public ResponseEntity<?> getPostList(@PathVariable Long categoryfolderId) {
         try {
