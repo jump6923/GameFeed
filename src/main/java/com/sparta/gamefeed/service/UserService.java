@@ -55,18 +55,6 @@ public class UserService {
         User changeUser = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당하는 id에 회원이 존재하지 않습니다."));
 
-        if(requestDto.getChangePassword() != null){
-            if(requestDto.getOriginPassword() == null){
-                throw new NullPointerException("기존 비밀번호를 입력해 주세요");
-            }
-            if(passwordEncoder.matches(requestDto.getOriginPassword(), changeUser.getPassword())){
-                requestDto.setChangePassword(passwordEncoder.encode(requestDto.getChangePassword()));
-                changeUser.changeUserInfo(requestDto);
-                return new ProfileResponseDto(changeUser);
-            } else {
-                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-            }
-        }
         changeUser.changeUserInfo(requestDto);
         return new ProfileResponseDto(changeUser);
     }
@@ -80,5 +68,23 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public void changePassword(PasswordRequestDto requestDto, Long id) {
+        User changeUser = userRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당하는 id에 회원이 존재하지 않습니다."));
+
+        if (requestDto.getChangePassword() != null) {
+            if (requestDto.getOriginPassword() == null) {
+                throw new NullPointerException("기존 비밀번호를 입력해 주세요");
+            }
+            if (passwordEncoder.matches(requestDto.getOriginPassword(), changeUser.getPassword())) {
+                requestDto.setChangePassword(passwordEncoder.encode(requestDto.getChangePassword()));
+                changeUser.changePassword(requestDto);
+            } else {
+                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+            }
+        }
     }
 }

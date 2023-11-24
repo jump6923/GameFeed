@@ -59,4 +59,15 @@ public class UserController {
             return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
+
+    @PatchMapping("/user/profile/password")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordRequestDto requestDto,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try {
+            userService.changePassword(requestDto,userDetails.getUser().getId());
+            return ResponseEntity.ok(new StatusResponseDto("비밀번호 변경 완료", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
 }
