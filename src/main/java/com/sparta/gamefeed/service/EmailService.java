@@ -1,7 +1,5 @@
 package com.sparta.gamefeed.service;
 
-import com.sparta.gamefeed.dto.EmailRequestDto;
-import com.sparta.gamefeed.dto.LoginRequestDto;
 import com.sparta.gamefeed.dto.SignupRequestDto;
 import com.sparta.gamefeed.entity.Email;
 import com.sparta.gamefeed.entity.User;
