@@ -1,7 +1,6 @@
 package com.sparta.gamefeed.controller;
 
 import com.sparta.gamefeed.dto.CodeRequestDto;
-import com.sparta.gamefeed.dto.EmailRequestDto;
 import com.sparta.gamefeed.dto.StatusResponseDto;
 import com.sparta.gamefeed.service.EmailService;
 import lombok.RequiredArgsConstructor;
