@@ -8,6 +8,4 @@ import lombok.Setter;
 public class IntroduceRequestDto {
     private String email;
     private String introduce;
-    private String originPassword;
-    private String changePassword;
 }
