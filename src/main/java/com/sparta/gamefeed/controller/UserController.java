@@ -54,7 +54,7 @@ public class UserController {
     public ResponseEntity<?> changeUserInfo(@RequestBody IntroduceRequestDto requestDto,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
         try {
-            return userService.changeUserInfo(requestDto, userDetails.getUser().getId());
+            return ResponseEntity.ok(userService.changeUserInfo(requestDto,userDetails.getUser().getId()));
         } catch (IllegalArgumentException | NullPointerException ex) {
             return ResponseEntity.badRequest().body(new StatusResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }

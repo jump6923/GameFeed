@@ -6,6 +6,7 @@ import com.sparta.gamefeed.entity.User;
 import com.sparta.gamefeed.repository.EmailRepository;
 import com.sparta.gamefeed.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,7 +51,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> changeUserInfo(IntroduceRequestDto requestDto, Long id) {
+    public ProfileResponseDto changeUserInfo(IntroduceRequestDto requestDto, Long id) {
         User changeUser = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당하는 id에 회원이 존재하지 않습니다."));
 
@@ -61,13 +62,13 @@ public class UserService {
             if(passwordEncoder.matches(requestDto.getOriginPassword(), changeUser.getPassword())){
                 requestDto.setChangePassword(passwordEncoder.encode(requestDto.getChangePassword()));
                 changeUser.changeUserInfo(requestDto);
-                return ResponseEntity.ok(new StatusResponseDto("비밀번호 변경", HttpStatus.OK.value()));
+                return new ProfileResponseDto(changeUser);
             } else {
                 throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
             }
         }
         changeUser.changeUserInfo(requestDto);
-        return ResponseEntity.ok(new ProfileResponseDto(changeUser));
+        return new ProfileResponseDto(changeUser);
     }
 
     public boolean checkUserEmail(LoginRequestDto requestDto) {

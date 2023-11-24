@@ -57,6 +57,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
+        // 토큰이 없는데 조회를 한다던가 -> 인가
+        // 토큰이 있는데 회원가입을 한다던가 / 로그인 한다던가 -> 토큰이 있다 없다는 회원가입을 할 수 있다 없다와는 연관 x 이건 ui/ux가 판단할 일
+        // 예외처리를 저희가 해줘야된다고생각하는데
+
         filterChain.doFilter(request, response);
     }
 
