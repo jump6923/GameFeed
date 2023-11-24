@@ -25,19 +25,22 @@ public class Heart {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "post_id")
-//    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    public void setUser(User user){
+    public Heart(User user, Comment comment) {
         this.user = user;
-    }
-
-    public void setComment(Comment comment){
         this.comment = comment;
     }
+
+    public Heart(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
+
 }
