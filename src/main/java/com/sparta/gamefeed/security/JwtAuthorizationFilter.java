@@ -1,8 +1,8 @@
 package com.sparta.gamefeed.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.gamefeed.dto.StatusResponseDto;
-import com.sparta.gamefeed.jwt.JwtUtil;
+import com.sparta.gamefeed.common.dto.StatusResponseDto;
+import com.sparta.gamefeed.security.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
