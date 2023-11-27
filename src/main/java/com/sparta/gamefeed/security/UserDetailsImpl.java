@@ -1,6 +1,6 @@
 package com.sparta.gamefeed.security;
 
-import com.sparta.gamefeed.entity.User;
+import com.sparta.gamefeed.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
