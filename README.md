@@ -33,69 +33,104 @@ https://www.notion.so/C-P-7add8cba7f9f40dfb5488905ef3311f5
     │   │       └── sparta
     │   │           └── gamefeed
     │   │               ├── GameFeedApplication.java
-    │   │               ├── config
-    │   │               │   ├── EmailConfig.java
-    │   │               │   └── WebSecurityConfig.java
-    │   │               ├── controller
-    │   │               │   ├── CategoryController.java
-    │   │               │   ├── CommentController.java
-    │   │               │   ├── EmailController.java
-    │   │               │   ├── HeartController.java
-    │   │               │   ├── PostController.java
-    │   │               │   └── UserController.java
-    │   │               ├── dto
-    │   │               │   ├── CategoryResponseDto.java
-    │   │               │   ├── CodeRequestDto.java
-    │   │               │   ├── CommentRequestDto.java
-    │   │               │   ├── CommentResponseDto.java
-    │   │               │   ├── FolderResponseDto.java
-    │   │               │   ├── HeartResponseDto.java
-    │   │               │   ├── IntroduceRequestDto.java
-    │   │               │   ├── LoginRequestDto.java
-    │   │               │   ├── PasswordRequestDto.java
-    │   │               │   ├── PostRequestDto.java
-    │   │               │   ├── PostResponseDto.java
-    │   │               │   ├── ProfileResponseDto.java
-    │   │               │   ├── SignupRequestDto.java
-    │   │               │   └── StatusResponseDto.java
-    │   │               ├── entity
-    │   │               │   ├── Category.java
-    │   │               │   ├── CategoryFolder.java
-    │   │               │   ├── Comment.java
-    │   │               │   ├── Email.java
-    │   │               │   ├── Folder.java
-    │   │               │   ├── Heart.java
-    │   │               │   ├── Post.java
-    │   │               │   ├── Timestamped.java
-    │   │               │   └── User.java
-    │   │               ├── jwt
-    │   │               │   └── JwtUtil.java
-    │   │               ├── repository
-    │   │               │   ├── CategoryFolderRepository.java
-    │   │               │   ├── CategoryRepository.java
-    │   │               │   ├── CommentRepository.java
-    │   │               │   ├── EmailRepository.java
-    │   │               │   ├── FolderRepository.java
-    │   │               │   ├── HeartRepository.java
-    │   │               │   ├── PostRepository.java
-    │   │               │   └── UserRepository.java
-    │   │               ├── security
+    │   │               ├── categoryfolder # 카테고리 및 게시판 관련
+    │   │               │   ├── controller
+    │   │               │   │   └── CategoryController.java
+    │   │               │   ├── dto
+    │   │               │   │   ├── CategoryResponseDto.java
+    │   │               │   │   └── FolderResponseDto.java
+    │   │               │   ├── entity
+    │   │               │   │   ├── Category.java
+    │   │               │   │   ├── CategoryFolder.java
+    │   │               │   │   └── Folder.java
+    │   │               │   ├── repository
+    │   │               │   │   ├── CategoryFolderRepository.java
+    │   │               │   │   ├── CategoryRepository.java
+    │   │               │   │   └── FolderRepository.java
+    │   │               │   └── service
+    │   │               │       └── CategoryService.java
+    │   │               ├── comment # 댓글관련 기능
+    │   │               │   ├── controller
+    │   │               │   │   └── CommentController.java
+    │   │               │   ├── dto
+    │   │               │   │   ├── CommentRequestDto.java
+    │   │               │   │   └── CommentResponseDto.java
+    │   │               │   ├── entity
+    │   │               │   │   └── Comment.java
+    │   │               │   ├── repository
+    │   │               │   │   └── CommentRepository.java
+    │   │               │   └── service
+    │   │               │       └── CommentService.java
+    │   │               ├── common # 공통
+    │   │               │   ├── dto
+    │   │               │   │   └── StatusResponseDto.java
+    │   │               │   └── entity
+    │   │               │       └── Timestamped.java
+    │   │               ├── email # 이메일 관련 기능
+    │   │               │   ├── config
+    │   │               │   │   └── EmailConfig.java
+    │   │               │   ├── controller
+    │   │               │   │   └── EmailController.java
+    │   │               │   ├── dto
+    │   │               │   │   └── CodeRequestDto.java
+    │   │               │   ├── entity
+    │   │               │   │   └── Email.java
+    │   │               │   ├── repository
+    │   │               │   │   └── EmailRepository.java
+    │   │               │   └── service
+    │   │               │       └── EmailService.java
+    │   │               ├── heart # 좋아요 기능
+    │   │               │   ├── controller
+    │   │               │   │   └── HeartController.java
+    │   │               │   ├── dto
+    │   │               │   │   └── HeartResponseDto.java
+    │   │               │   ├── entity
+    │   │               │   │   └── Heart.java
+    │   │               │   ├── repository
+    │   │               │   │   └── HeartRepository.java
+    │   │               │   └── service
+    │   │               │       └── HeartService.java
+    │   │               ├── post # 게시물 관련 기능
+    │   │               │   ├── controller
+    │   │               │   │   └── PostController.java
+    │   │               │   ├── dto
+    │   │               │   │   ├── PostRequestDto.java
+    │   │               │   │   └── PostResponseDto.java
+    │   │               │   ├── entity
+    │   │               │   │   └── Post.java
+    │   │               │   ├── repository
+    │   │               │   │   └── PostRepository.java
+    │   │               │   └── service
+    │   │               │       └── PostService.java
+    │   │               ├── security # 인증/인가
     │   │               │   ├── JwtAuthenticationFilter.java
     │   │               │   ├── JwtAuthorizationFilter.java
     │   │               │   ├── UserDetailsImpl.java
-    │   │               │   └── UserDetailsServiceImpl.java
-    │   │               └── service
-    │   │                   ├── CategoryService.java
-    │   │                   ├── CommentService.java
-    │   │                   ├── EmailService.java
-    │   │                   ├── HeartService.java
-    │   │                   ├── PostService.java
-    │   │                   └── UserService.java
+    │   │               │   ├── UserDetailsServiceImpl.java
+    │   │               │   ├── config
+    │   │               │   │   └── WebSecurityConfig.java
+    │   │               │   └── jwt
+    │   │               │       └── JwtUtil.java
+    │   │               └── user #회원가입/로그인/프로필
+    │   │                   ├── controller
+    │   │                   │   └── UserController.java
+    │   │                   ├── dto
+    │   │                   │   ├── IntroduceRequestDto.java
+    │   │                   │   ├── LoginRequestDto.java
+    │   │                   │   ├── PasswordRequestDto.java
+    │   │                   │   ├── ProfileResponseDto.java
+    │   │                   │   └── SignupRequestDto.java
+    │   │                   ├── entity
+    │   │                   │   └── User.java
+    │   │                   ├── repository
+    │   │                   │   └── UserRepository.java
+    │   │                   └── service
+    │   │                       └── UserService.java
     │   └── resources
     │       ├── application.properties
     │       ├── data.sql
     │       ├── static
-    │       └── templates
+    │       └── templates    
     └── test
     
 ```
