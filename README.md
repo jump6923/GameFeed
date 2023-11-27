@@ -1,6 +1,5 @@
 # [Spring 뉴스피드 프로젝트] Gamefeed
 
---------------
 이 프로젝트는 Spring Framework 기반의 뉴스피드 프로젝트로,
 
 여러 게임에 대한 `업데이트`와 `공지사항`, `이벤트` 등을 알려주고 각종 게임에 대한 `팁`을 알려주는 뉴스피드 게시판 프로젝트입니다.
@@ -8,21 +7,26 @@
 
 ## 팀 노션 페이지
 
------
-
 https://www.notion.so/C-P-7add8cba7f9f40dfb5488905ef3311f5
 
 ## Team members
 
-----
 | 김진환                                                                                                                  | 정해인 | 황규정 |
 |----------------------------------------------------------------------------------------------------------------------| --- | --- |
 | [<img src="https://img.shields.io/badge/github-black?style=for-the-badge&logo=github">](https://github.com/jump6923) | [<img src="https://img.shields.io/badge/github-black?style=for-the-badge&logo=github">](https://github.com/seaStamp) | [<img src="https://img.shields.io/badge/github-black?style=for-the-badge&logo=github">](https://github.com/Mayst1232) |
 
 
+## 기술 스택
+Java JAR 17
+Spring
+Spring Boot 3.1.5
+Spring Security 6
+JPA/Hibernate
+MySQL
+JWT
+
 ## 디렉토리 구조
 
-------------
 ```
 ├── README.md
 ├── build.gradle
@@ -137,20 +141,16 @@ https://www.notion.so/C-P-7add8cba7f9f40dfb5488905ef3311f5
 
 ## ERD
 
-----
 ![Gamefeed ERD.png](document%2FGamefeed%20ERD.png)
 
 
 ## API 명세서
 
-----
 ### [Gamefeed API Postman Doc](https://documenter.getpostman.com/view/30904217/2s9YeD9ZNN)
 ![Gamefeed API.png](document%2FGamefeed%20API.png)
 
 
 ## 구현 기능 목록
-
-----
 
 ### 사용자(User) 관련 기능 목록
  - **사용자 인증기능**  
