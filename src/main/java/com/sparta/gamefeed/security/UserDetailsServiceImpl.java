@@ -1,7 +1,7 @@
 package com.sparta.gamefeed.security;
 
-import com.sparta.gamefeed.entity.User;
-import com.sparta.gamefeed.repository.UserRepository;
+import com.sparta.gamefeed.user.entity.User;
+import com.sparta.gamefeed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
