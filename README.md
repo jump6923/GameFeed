@@ -18,11 +18,17 @@ https://www.notion.so/C-P-7add8cba7f9f40dfb5488905ef3311f5
 
 ## 기술 스택
 Java JAR 17
+
 Spring
+
 Spring Boot 3.1.5
+
 Spring Security 6
+
 JPA/Hibernate
+
 MySQL
+
 JWT
 
 ## 디렉토리 구조
