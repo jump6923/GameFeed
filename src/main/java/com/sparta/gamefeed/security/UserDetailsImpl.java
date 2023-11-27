@@ -1,6 +1,6 @@
 package com.sparta.gamefeed.security;
 
-import com.sparta.gamefeed.entity.User;
+import com.sparta.gamefeed.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +18,10 @@ public class UserDetailsImpl implements UserDetails {
         return user;
     }
 
+    public boolean getChecker(){
+        return user.isChecker();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -25,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUserId();
+        return user.getUsername();
     }
 
 
