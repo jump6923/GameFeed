@@ -87,7 +87,6 @@ public class EmailService{
     }
 
     public void sendSimpleMessage(SignupRequestDto requestDto) throws Exception {
-        // TODO Auto-generated method stub
         String email = requestDto.getEmail();
 
         MimeMessage message = createMessage(email);
