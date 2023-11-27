@@ -33,13 +33,13 @@ public class CommentService {
         // 해당 Post가 있는지 확인
         postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 post 입니다."));
 
-        List<Comment> commentList = commentRepository.findAllByPost_Id(postId); // 작동하는지 확인
+        List<Comment> commentList = commentRepository.findAllByPost_IdOrderByCreatedAtDesc(postId);
         return commentList.stream().map(CommentResponseDto::new).toList();
     }
 
     @Transactional
     public CommentResponseDto modifyComment(Long commentId, CommentRequestDto requestDto, User user) {
-        // comment가 있는지 확인 + 이후 작성자가 맞는지도 확인할 예정
+        // comment가 있는지 확인 + 작성자가 맞는지 확인
         Comment comment = findComment(commentId, user);
 
         comment.update(requestDto);
